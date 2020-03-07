@@ -1,7 +1,8 @@
 class DistanceSensor:
 
     #  Initialisierung
-    def __init__(self):
+    def __init__(self, sensorId_attr='KY-050'):
+        sensorId = sensorId_attr
         pass
 
     #  return Wert als Dictionary entsprechend folgendem JSON:
