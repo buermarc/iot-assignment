@@ -6,4 +6,4 @@ class CsvWriter:
 
     #  line: ist die bereits formatierte Zeile, die nur noch geschrieben wird.
     def write_line (self, line):
-         pass
+        print(line)
