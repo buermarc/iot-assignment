@@ -6,3 +6,4 @@
 - relative path for config is problematic
 - way to many assingments to static variables
 - unsure if all classes have to be classes
+- implement the csv writer
