@@ -2,7 +2,7 @@ import time
 import json
 import random
 import datetime
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from config.config import Config
 from alerts.alert_service import AlertService  
 import threading
