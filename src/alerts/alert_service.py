@@ -9,9 +9,9 @@ class AlertService: # Service Reagiert auf Messwerte
         pass
 
     #  value:  Neuer Schwellwert als einfache Zahl in der Einheit cm wird hier übergeben
-    def set_alert_threshold (self, message):
+    def set_alert_threshold(message):
         #TODO check if it is an int
-        self.treshhold = int(value);
+        AlertService.treshhold = int(message);
 
 
     #  value:  Aktuell gemessener Wert (siehe DistanceSensor) wird übergeben und es wird ein Alarm gesendet

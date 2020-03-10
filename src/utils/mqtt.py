@@ -12,6 +12,7 @@ class MqttHandler:
                 AlertService.on_distance_threshold_passed)
         self.ps.sub("distance-sensor/data", DataService.send_data)
         self.ps.sub("csv-writer/write", CsvWriter.write_line) 
+        self.ps.sub("config/treshhold", AlertService.set_alert_threshold)
         MqttHandler.client = mqtt.Client()
         MqttHandler.client.connect(Config.broker_host, Config.broker_port)
         MqttHandler.client.on_message = self.on_message
@@ -20,6 +21,6 @@ class MqttHandler:
         MqttHandler.client.loop_start()
 
     def on_message(self, client, userdata, message):
-        if message.topic.decode() == Config.alert_topic:
-            self.ps.publish("config/treshhold", int(message.payload.decode()))
+        if message.topic == Config.config_topic:
+            self.ps.pub("config/treshhold", int(message.payload.decode()))
 
