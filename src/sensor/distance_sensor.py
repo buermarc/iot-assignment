@@ -15,9 +15,10 @@ class DistanceSensor:
         self.triggerPin = 17
         self.echoPin = 27
         self.ps = ps
-        GPIO.setup(TriggerPIN, GPIO.OUT)
-        GPIO.setup(EchoPIN, GPIO.IN)
-        GPIO.output(TriggerPIN, False)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.triggerPin, GPIO.OUT)
+        GPIO.setup(self.echoPin, GPIO.IN)
+        GPIO.output(self.triggerPin, False)
         threading.Thread(target=self._read_sensor, args=(running, ps)).start()
 
     def __del__(self):
