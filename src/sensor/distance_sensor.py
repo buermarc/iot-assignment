@@ -41,21 +41,21 @@ class DistanceSensor:
                 }
         
     def read_value (self):
-        GPIO.output(TriggerPIN, True)
+        GPIO.output(self.triggerPin, True)
         time.sleep(0.1)
-        GPIO.output(TriggerPIN, False)
+        GPIO.output(self.triggerPin, False)
 
         timer1 = time.time()
-        while GPIO.input(EchoPIN) == 0:
+        while GPIO.input(self.echoPin) == 0:
             timer1 = time.time()
 
-        while GPIO.input(EchoPIN) == 1:
+        while GPIO.input(self.echoPin) == 1:
             timer2 = time.time()
 
         duration = timer2 - timer1
         distance = (duration * 34300) / 2
 
-        distance = format((duration * 34300) / 2, '0.2f')
+        distance = format((duration * 34300) / 2, '0.0f')
         return {
                 "sensorId": self.sensorId,
                 "timestamp": datetime.datetime \
@@ -67,7 +67,7 @@ class DistanceSensor:
     def _read_sensor(self, running, ps):
         while running:
             ret_val = self.read_value()
-            if ret_val["distance"] < int(AlertService.treshhold):
+            if int(ret_val["distance"]) < int(AlertService.treshhold):
                 self.ps.pub("distance-sensor/alarm", json.dumps(ret_val))
             self.ps.pub("distance-sensor/data", json.dumps(ret_val))
             self.ps.pub("csv-writer/data", json.dumps(ret_val))
