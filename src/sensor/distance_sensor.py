@@ -2,7 +2,7 @@ import time
 import json
 import random
 import datetime
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from config.config import Config
 from alerts.alert_service import AlertService  
 import threading
@@ -15,9 +15,10 @@ class DistanceSensor:
         self.triggerPin = 17
         self.echoPin = 27
         self.ps = ps
-        GPIO.setup(TriggerPIN, GPIO.OUT)
-        GPIO.setup(EchoPIN, GPIO.IN)
-        GPIO.output(TriggerPIN, False)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.triggerPin, GPIO.OUT)
+        GPIO.setup(self.echoPin, GPIO.IN)
+        GPIO.output(self.triggerPin, False)
         threading.Thread(target=self._read_sensor, args=(running, ps)).start()
 
     def __del__(self):
@@ -40,22 +41,22 @@ class DistanceSensor:
                 "unit": "cm"
                 }
         
-    def read_value (self):
-        GPIO.output(TriggerPIN, True)
+    def read_value(self):
+        GPIO.output(self.triggerPin, True)
         time.sleep(0.1)
-        GPIO.output(TriggerPIN, False)
+        GPIO.output(self.triggerPin, False)
 
         timer1 = time.time()
-        while GPIO.input(EchoPIN) == 0:
+        while GPIO.input(self.echoPin) == 0:
             timer1 = time.time()
 
-        while GPIO.input(EchoPIN) == 1:
+        while GPIO.input(self.echoPin) == 1:
             timer2 = time.time()
 
         duration = timer2 - timer1
         distance = (duration * 34300) / 2
 
-        distance = format((duration * 34300) / 2, '0.2f')
+        distance = format((duration * 34300) / 2, '0.0f')
         return {
                 "sensorId": self.sensorId,
                 "timestamp": datetime.datetime \
@@ -67,7 +68,7 @@ class DistanceSensor:
     def _read_sensor(self, running, ps):
         while running:
             ret_val = self.read_value()
-            if ret_val["distance"] < int(AlertService.treshhold):
+            if int(ret_val["distance"]) < int(AlertService.treshhold):
                 self.ps.pub("distance-sensor/alarm", json.dumps(ret_val))
             self.ps.pub("distance-sensor/data", json.dumps(ret_val))
             self.ps.pub("csv-writer/data", json.dumps(ret_val))
