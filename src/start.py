@@ -3,7 +3,10 @@ import time
 
 if __name__ == "__main__":
     from config.config import Config
+    from csvwriter.csv_writer import CsvWriter
     config = Config()
+    fieldnames = {'sensorId', 'timestamp', 'distance', 'unit'}
+    csv_writer = CsvWriter(fieldnames)
 
     from sensor.distance_sensor import DistanceSensor
     from utils.mqtt import MqttHandler

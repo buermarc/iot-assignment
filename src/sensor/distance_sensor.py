@@ -74,9 +74,9 @@ class DistanceSensor:
         while running:
             ret_val = self.dummy_read_value()
             if int(ret_val["distance"]) < int(AlertService.treshhold):
-                self.ps.pub("distance-sensor/alarm", json.dumps(ret_val))
-            self.ps.pub("distance-sensor/data", json.dumps(ret_val))
-            self.ps.pub("csv-writer/data", json.dumps(ret_val))
+                self.ps.pub("distance-sensor/alarm", ret_val)
+            self.ps.pub("distance-sensor/data", ret_val)
+            self.ps.pub("csv-writer/data", ret_val)
             #TODO Where to cleanup GPIO, is del sufficent?
             print("In read sensor loop")
             time.sleep(1.0)
