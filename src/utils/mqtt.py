@@ -3,6 +3,7 @@ from alerts.alert_service import AlertService
 from data.dataservice import DataService
 from config.config import Config
 from csvwriter.csv_writer import CsvWriter
+
 class MqttHandler:
     client = None
 
@@ -19,6 +20,10 @@ class MqttHandler:
         MqttHandler.client.subscribe(Config.config_topic, qos=1)
 
         MqttHandler.client.loop_start()
+
+    def __del__(self):
+        #TODO implement what ever has to be closed
+        pass
 
     def on_message(self, client, userdata, message):
         if message.topic == Config.config_topic:

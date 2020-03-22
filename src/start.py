@@ -26,7 +26,12 @@ if __name__ == "__main__":
             time.sleep(10) 
 
     except KeyboardInterrupt:
+        handlers[0].set_running(False)
         for handler in handlers:
             if hasattr(handler, "close"):
                 handler.close()
+                del handler
         print("\nKeyboardInterupt")
+
+        del config
+        del csv_writer

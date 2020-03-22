@@ -15,6 +15,7 @@ class DistanceSensor:
         self.triggerPin = 17
         self.echoPin = 27
         self.ps = ps
+        self.running = running
         '''
         GPIO.setup(TriggerPIN, GPIO.OUT)
         GPIO.setup(EchoPIN, GPIO.IN)
@@ -27,6 +28,9 @@ class DistanceSensor:
         GPIO.cleanup()
         '''
         print("Log del was called, GPIO was cleaned")
+
+    def set_running(self, running):
+        self.running = running;
 
     #  return Wert als Dictionary entsprechend folgendem JSON:
     #   { 
@@ -70,8 +74,8 @@ class DistanceSensor:
                 }
     '''
 
-    def _read_sensor(self, running, ps):
-        while running:
+    def _read_sensor(self, dummy, ps):
+        while self.running:
             ret_val = self.dummy_read_value()
             if int(ret_val["distance"]) < int(AlertService.treshhold):
                 self.ps.pub("distance-sensor/alarm", ret_val)
