@@ -26,7 +26,7 @@ if __name__ == "__main__":
             time.sleep(10) 
 
     except KeyboardInterrupt:
-        handlers[0].set_running(False)
+        handlers[0].set_running(False) #TODO get rid of '[0]'
         for handler in handlers:
             if hasattr(handler, "close"):
                 handler.close()
