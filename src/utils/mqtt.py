@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 from alerts.alert_service import AlertService
 from data.dataservice import DataService
 from config.config import Config
-from csvwriter.csv_writer import CsvWriter
+from dhbw_iot_csv.csv_writer import CsvWriter
 
 class MqttHandler:
     client = None

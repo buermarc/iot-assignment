@@ -3,7 +3,7 @@ import time
 
 if __name__ == "__main__":
     from config.config import Config
-    from csvwriter.csv_writer import CsvWriter
+    from dhbw_iot_csv.csv_writer import CsvWriter
     config = Config()
     fieldnames = {'sensorId', 'timestamp', 'distance', 'unit'}
     csv_writer = CsvWriter(fieldnames)
