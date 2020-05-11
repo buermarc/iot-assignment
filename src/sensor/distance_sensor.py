@@ -11,11 +11,11 @@ class DistanceSensor:
 
     #  Initialisierung
     def __init__(self, running, ps, sensorId_attr='KY-050'):
+        self.running = running
         self.sensorId = sensorId_attr
         self.triggerPin = 17
         self.echoPin = 27
         self.ps = ps
-        self.running = running
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.triggerPin, GPIO.OUT)
         GPIO.setup(self.echoPin, GPIO.IN)
