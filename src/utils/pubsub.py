@@ -18,6 +18,6 @@ class PubSubBroker:
     def pub(self, topic, *args, **kwargs):
         if topic in self._topics:
             for methode in self._topics[topic]:
-                thread=threading.Thread(target=methode, name=(str(topic)+" "+str(methode)), \
+                thread=threading.Thread(target=methode, name=(str("iot-"+topic)+" "+str(methode)), \
                         args=args, kwargs=kwargs)
                 thread.start() 

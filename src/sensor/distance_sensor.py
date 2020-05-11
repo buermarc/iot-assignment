@@ -11,6 +11,7 @@ class DistanceSensor:
 
     #  Initialisierung
     def __init__(self, running, ps, sensorId_attr='KY-050'):
+        self.running = running
         self.sensorId = sensorId_attr
         self.triggerPin = 17
         self.echoPin = 27
@@ -19,11 +20,14 @@ class DistanceSensor:
         GPIO.setup(self.triggerPin, GPIO.OUT)
         GPIO.setup(self.echoPin, GPIO.IN)
         GPIO.output(self.triggerPin, False)
-        threading.Thread(target=self._read_sensor, args=(running, ps)).start()
+        threading.Thread(target=self._read_sensor, name="iot-sensor", args=(running, ps)).start()
 
     def __del__(self):
         GPIO.cleanup()
         print("Log del was called, GPIO was cleaned")
+
+    def set_running(self, running):
+        self.running = running;
 
     #  return Wert als Dictionary entsprechend folgendem JSON:
     #   { 
@@ -65,14 +69,15 @@ class DistanceSensor:
                 "unit": "cm"
                 }
 
-    def _read_sensor(self, running, ps):
-        while running:
+    def _read_sensor(self, dummy, ps):
+        while self.running:
             ret_val = self.read_value()
             if int(ret_val["distance"]) < int(AlertService.treshhold):
-                self.ps.pub("distance-sensor/alarm", json.dumps(ret_val))
-            self.ps.pub("distance-sensor/data", json.dumps(ret_val))
-            self.ps.pub("csv-writer/data", json.dumps(ret_val))
+                self.ps.pub("distance-sensor/alarm", ret_val)
+            self.ps.pub("distance-sensor/data", ret_val)
+            self.ps.pub("csv-writer/data", ret_val)
             #TODO Where to cleanup GPIO, is del sufficent?
             print("In read sensor loop")
             time.sleep(1.0)
+
 

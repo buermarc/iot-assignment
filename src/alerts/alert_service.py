@@ -1,4 +1,5 @@
 from config.config import Config
+import json
 #TODO fix imports
 
 class AlertService: # Service Reagiert auf Messwerte
@@ -17,7 +18,7 @@ class AlertService: # Service Reagiert auf Messwerte
     #  value:  Aktuell gemessener Wert (siehe DistanceSensor) wird übergeben und es wird ein Alarm gesendet
     def on_distance_threshold_passed(value):
         from utils.mqtt import MqttHandler as mqtt
-        mqtt.client.publish(Config.alert_topic, value)
+        mqtt.client.publish(Config.alert_topic, json.dumps(value))
         # write to mqtt topic in config.json
 
 

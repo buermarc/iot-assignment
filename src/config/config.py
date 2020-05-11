@@ -1,3 +1,4 @@
+import os
 import json
 
 class Config:
@@ -7,8 +8,10 @@ class Config:
     data_topic = None
     alert_topic = None
     
-    def __init__(self, path='config/brokerConfig.json'): 
+    def __init__(self, path='brokerConfig.json'): 
         # read config and return, print for debug 
+        print(os.path.dirname(__file__))
+        path = os.path.join(os.path.dirname(__file__), path)
         with open(path) as f: 
             config = json.load(f)
                 
