@@ -1,0 +1,11 @@
+IOT-ASSIGNMENT
+
+[TODO]:
+[ ] make multiple measurements possible?
+[ ] implement close for handlers
+[ ] cleanup GPIO
+[~] relative path for config is problematic -> kinda solved
+[ ] way to many assingments to static variables
+[ ] unsure if all classes have to be classes
+[~] implement the csv writer
+[ ] add virt env
