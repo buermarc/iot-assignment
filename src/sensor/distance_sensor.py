@@ -21,7 +21,7 @@ class DistanceSensor:
         GPIO.setup(EchoPIN, GPIO.IN)
         GPIO.output(TriggerPIN, False)
         '''
-        threading.Thread(target=self._read_sensor, args=(running, ps)).start()
+        threading.Thread(target=self._read_sensor, name="iot-sensor", args=(running, ps)).start()
 
     def __del__(self):
         '''
@@ -84,4 +84,5 @@ class DistanceSensor:
             #TODO Where to cleanup GPIO, is del sufficent?
             print("In read sensor loop")
             time.sleep(1.0)
+
 

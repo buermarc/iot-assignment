@@ -8,18 +8,23 @@ class MqttHandler:
     client = None
 
     def __init__(self, ps):
-        self.ps = ps
-        self.ps.sub("distance-sensor/alarm", \
-                AlertService.on_distance_threshold_passed)
-        self.ps.sub("distance-sensor/data", DataService.send_data)
-        self.ps.sub("csv-writer/data", CsvWriter.write_line) 
-        self.ps.sub("config/treshhold", AlertService.set_alert_threshold)
-        MqttHandler.client = mqtt.Client()
-        MqttHandler.client.connect(Config.broker_host, Config.broker_port)
-        MqttHandler.client.on_message = self.on_message
-        MqttHandler.client.subscribe(Config.config_topic, qos=1)
+        try:
+            self.ps = ps
+            self.ps.sub("distance-sensor/alarm", \
+                    AlertService.on_distance_threshold_passed)
+            self.ps.sub("distance-sensor/data", DataService.send_data)
+            self.ps.sub("csv-writer/data", CsvWriter.write_line) 
+            self.ps.sub("config/treshhold", AlertService.set_alert_threshold)
+            MqttHandler.client = mqtt.Client()
+            MqttHandler.client.connect(Config.broker_host, Config.broker_port)
+            MqttHandler.client.on_message = self.on_message
+            MqttHandler.client.subscribe(Config.config_topic, qos=1)
 
-        MqttHandler.client.loop_start()
+            MqttHandler.client.loop_start()
+            self.exception = False 
+
+        except Exception:
+            self.exception = True 
 
     def __del__(self):
         #TODO implement what ever has to be closed

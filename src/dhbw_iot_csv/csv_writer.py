@@ -9,9 +9,10 @@ class CsvWriter:
     #  Initialisierung
     def __init__(self, fieldnames):
         CsvWriter.fieldnames = fieldnames
-        f = open('csv_log', 'a')
+        f = open('csv_log', 'w')
         CsvWriter.f = f
         CsvWriter.csv_writer =  csv_mod.DictWriter(f,fieldnames)
+        CsvWriter.csv_writer.writeheader()
 
     def __del__(self):
         CsvWriter.f.close()
