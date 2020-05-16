@@ -5,9 +5,9 @@ import datetime
 #import RPi.GPIO as GPIO
 from config.config import Config
 from alerts.alert_service import AlertService  
-import threading
 
 class DistanceSensor:
+    running = None
 
     #  Initialisierung
     def __init__(self, running, ps, sensorId_attr='KY-050'):
@@ -15,13 +15,12 @@ class DistanceSensor:
         self.triggerPin = 17
         self.echoPin = 27
         self.ps = ps
-        self.running = running
+        DistanceSensor.running = running
         '''
         GPIO.setup(TriggerPIN, GPIO.OUT)
         GPIO.setup(EchoPIN, GPIO.IN)
         GPIO.output(TriggerPIN, False)
         '''
-        threading.Thread(target=self._read_sensor, name="iot-sensor", args=(running, ps)).start()
 
     def __del__(self):
         '''
@@ -29,8 +28,6 @@ class DistanceSensor:
         '''
         print("Log del was called, GPIO was cleaned")
 
-    def set_running(self, running):
-        self.running = running;
 
     #  return Wert als Dictionary entsprechend folgendem JSON:
     #   { 
@@ -74,6 +71,7 @@ class DistanceSensor:
                 }
     '''
 
+    '''
     def _read_sensor(self, dummy, ps):
         while self.running:
             ret_val = self.dummy_read_value()
@@ -84,5 +82,4 @@ class DistanceSensor:
             #TODO Where to cleanup GPIO, is del sufficent?
             print("In read sensor loop")
             time.sleep(1.0)
-
-
+    '''
