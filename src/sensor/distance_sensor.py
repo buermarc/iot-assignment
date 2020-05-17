@@ -5,7 +5,6 @@ import datetime
 import RPi.GPIO as GPIO
 from config.config import Config
 from alerts.alert_service import AlertService  
-import threading
 
 class DistanceSensor:
 
@@ -26,8 +25,6 @@ class DistanceSensor:
         GPIO.cleanup()
         print("Log del was called, GPIO was cleaned")
 
-    def set_running(self, running):
-        self.running = running;
 
     #  return Wert als Dictionary entsprechend folgendem JSON:
     #   { 
@@ -69,6 +66,7 @@ class DistanceSensor:
                 "unit": "cm"
                 }
 
+    '''
     def _read_sensor(self, dummy, ps):
         while self.running:
             ret_val = self.read_value()
@@ -79,5 +77,4 @@ class DistanceSensor:
             #TODO Where to cleanup GPIO, is del sufficent?
             print("In read sensor loop")
             time.sleep(1.0)
-
-
+    '''
