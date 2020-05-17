@@ -1,11 +1,18 @@
+import sys
 import time 
 import threading
 import logging
 # Start der Anwendung
 
 if __name__ == "__main__":
+
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger(__name__)
+
+    if int(sys.version[0]) != 3:
+        log.error("Please run with Python 3")
+        exit(1)
+
 
     from config.config import Config
     from dhbw_iot_csv.csv_writer import CsvWriter
