@@ -1,8 +1,12 @@
 import time 
 import threading
+import logging
 # Start der Anwendung
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    log = logging.getLogger(__name__)
+
     from config.config import Config
     from dhbw_iot_csv.csv_writer import CsvWriter
 
@@ -41,7 +45,7 @@ if __name__ == "__main__":
             if hasattr(handler, "close"):
                 handler.close()
                 del handler
-        print("\nKeyboardInterrupt in Main Loop")
+        log.info("KeyboardInterrupt in Main Loop")
 
         del config
         del csv_writer

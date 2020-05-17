@@ -32,5 +32,5 @@ class MqttHandler:
 
     def on_message(self, client, userdata, message):
         if message.topic == Config.config_topic:
-            self.ps.pub("config/treshhold", int(message.payload.decode()))
+            self.ps.pub("config/treshhold", message.payload.decode())
 

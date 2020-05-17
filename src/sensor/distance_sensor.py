@@ -3,27 +3,27 @@ import json
 import random
 import datetime
 import RPi.GPIO as GPIO
+import logging
 from config.config import Config
 from alerts.alert_service import AlertService  
+
+log = logging.getLogger(__name__)
 
 class DistanceSensor:
 
     #  Initialisierung
-    def __init__(self, running, ps, sensorId_attr='KY-050'):
-        self.running = running
+    def __init__(self, sensorId_attr='KY-050'):
         self.sensorId = sensorId_attr
         self.triggerPin = 17
         self.echoPin = 27
-        self.ps = ps
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.triggerPin, GPIO.OUT)
         GPIO.setup(self.echoPin, GPIO.IN)
         GPIO.output(self.triggerPin, False)
-        threading.Thread(target=self._read_sensor, name="iot-sensor", args=(running, ps)).start()
 
     def __del__(self):
         GPIO.cleanup()
-        print("Log del was called, GPIO was cleaned")
+        log.info("Log del was called, GPIO was cleaned")
 
 
     #  return Wert als Dictionary entsprechend folgendem JSON:

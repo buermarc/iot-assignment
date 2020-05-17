@@ -1,4 +1,7 @@
 import time
+import logging
+
+log = logging.getLogger(__name__)
 
 class Loop:
     
@@ -12,6 +15,7 @@ class Loop:
     def _read_sensor(self, distance_sensor):
 
         from alerts.alert_service import AlertService
+        log.info("Start read sensor loop")
         while self.running:
             ret_val = distance_sensor.dummy_read_value()
             if int(ret_val["distance"]) < int(AlertService.treshhold):
@@ -19,6 +23,7 @@ class Loop:
             self.ps.pub("distance-sensor/data", ret_val)
             self.ps.pub("csv-writer/data", ret_val)
             #TODO Where to cleanup GPIO, is del sufficent?
-            print("In read sensor loop")
             time.sleep(1.0)
+
+        log.info("Stop read sensor loop")
 
