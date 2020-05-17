@@ -7,15 +7,12 @@ from config.config import Config
 from alerts.alert_service import AlertService  
 
 class DistanceSensor:
-    running = None
 
     #  Initialisierung
-    def __init__(self, running, ps, sensorId_attr='KY-050'):
+    def __init__(self, sensorId_attr='KY-050'):
         self.sensorId = sensorId_attr
         self.triggerPin = 17
         self.echoPin = 27
-        self.ps = ps
-        DistanceSensor.running = running
         '''
         GPIO.setup(TriggerPIN, GPIO.OUT)
         GPIO.setup(EchoPIN, GPIO.IN)
