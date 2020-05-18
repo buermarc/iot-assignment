@@ -17,7 +17,7 @@ class Loop:
         from alerts.alert_service import AlertService
         log.info("Start read sensor loop")
         while self.running:
-            ret_val = distance_sensor.dummy_read_value()
+            ret_val = distance_sensor.read_value()
             if int(ret_val["distance"]) < int(AlertService.treshhold):
                 self.ps.pub("distance-sensor/alarm", ret_val)
             self.ps.pub("distance-sensor/data", ret_val)

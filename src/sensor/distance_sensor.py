@@ -33,14 +33,6 @@ class DistanceSensor:
     #     "distance" : 42,
     #     "unit" : "cm"
     #   }
-    def dummy_read_value(self): 
-        return {
-                "sensorId": self.sensorId,
-                "timestamp": datetime.datetime \
-                .fromtimestamp(time.time()).isoformat(),
-                "distance": random.randrange(0,150,1),
-                "unit": "cm"
-                }
         
     def read_value (self):
         GPIO.output(self.triggerPin, True)
@@ -66,15 +58,3 @@ class DistanceSensor:
                 "unit": "cm"
                 }
 
-    '''
-    def _read_sensor(self, dummy, ps):
-        while self.running:
-            ret_val = self.read_value()
-            if int(ret_val["distance"]) < int(AlertService.treshhold):
-                self.ps.pub("distance-sensor/alarm", ret_val)
-            self.ps.pub("distance-sensor/data", ret_val)
-            self.ps.pub("csv-writer/data", ret_val)
-            #TODO Where to cleanup GPIO, is del sufficent?
-            print("In read sensor loop")
-            time.sleep(1.0)
-    '''

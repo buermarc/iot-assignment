@@ -49,9 +49,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         handlers[2]._set_running(False)
         for handler in handlers:
-            if hasattr(handler, "close"):
-                handler.close()
-                del handler
+            del handler
         log.info("KeyboardInterrupt in Main Loop")
 
         del config
